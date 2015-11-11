@@ -127,6 +127,42 @@ var context = context || (function () {
 			}
 		});
 	}
+
+    function showContext(data, e) {
+        var d = new Date(),
+			id = d.getTime(),
+			$menu = buildMenu(data, id);
+			
+		$('body').append($menu);
+		
+		
+        e.preventDefault();
+        e.stopPropagation();
+        
+        $('.dropdown-context:not(.dropdown-context-sub)').hide();
+        
+        $dd = $('#dropdown-' + id);
+        if (typeof options.above == 'boolean' && options.above) {
+            $dd.addClass('dropdown-context-up').css({
+                top: e.pageY - 20 - $('#dropdown-' + id).height(),
+                left: e.pageX - 13
+            }).fadeIn(options.fadeSpeed);
+        } else if (typeof options.above == 'string' && options.above == 'auto') {
+            $dd.removeClass('dropdown-context-up');
+            var autoH = $dd.height() + 12;
+            if ((e.pageY + autoH) > $('html').height()) {
+                $dd.addClass('dropdown-context-up').css({
+                    top: e.pageY - 20 - autoH,
+                    left: e.pageX - 13
+                }).fadeIn(options.fadeSpeed);
+            } else {
+                $dd.css({
+                    top: e.pageY + 10,
+                    left: e.pageX - 13
+                }).fadeIn(options.fadeSpeed);
+            }
+        }
+    }
 	
 	function destroyContext(selector) {
 		$(document).off('contextmenu', selector).off('click', '.context-event');
@@ -136,6 +172,7 @@ var context = context || (function () {
 		init: initialize,
 		settings: updateOptions,
 		attach: addContext,
+        show: showContext,
 		destroy: destroyContext
 	};
 })();

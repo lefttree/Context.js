@@ -1,5 +1,19 @@
 # Context.js forked
 
+## My modification
+
+The original library providers `attach` method to attach on elements. But 
+I wanna use this library with jit.js which already has event listeners. 
+
+To integrate these two, I don't wanna attach the context menu to a element's event,
+I hope it can just showup a context menu when the onRightClick of jit.js triggers.
+So I reused part of the `attach` function codes and added a new method `show`.
+
+`show(data, e)`
+
+- `data` the same data as `attach`
+- `e` event object you can pass in from other event listeners
+
 ## About
 
 Context.js is a lightweight solution for contextual menus. Currently, there are two versions.
